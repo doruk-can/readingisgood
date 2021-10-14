@@ -22,6 +22,7 @@ public class BookServiceImpl {
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotExistException("The book does not exist in the warehouse database"));
+
         return book;
     }
 
