@@ -1,6 +1,8 @@
 package com.getir.readingisgood.api.core.model.service;
 
 import com.getir.readingisgood.api.core.exception.BookNotExistException;
+import com.getir.readingisgood.api.core.exception.InsufficientBookStockException;
+import com.getir.readingisgood.api.core.exception.InvalidOrderAmountException;
 import com.getir.readingisgood.api.core.exception.OrderNotFoundException;
 import com.getir.readingisgood.api.core.model.domain.Book;
 import com.getir.readingisgood.api.core.model.domain.Order;
@@ -38,10 +40,10 @@ public class OrderServiceImpl {
         UserDetails customer = userDetailsService.loadUserByUsername(orderRequest.getUsername());
 
         if(orderRequest.getPurchaseAmount() < 1) {
-            // throw invalid order amount
+            throw new InvalidOrderAmountException("Users cannot order books with negative values");
         }
         if (book.getStockAmount() < orderRequest.getPurchaseAmount()) {
-            // throw insufficient book stock
+            throw new InsufficientBookStockException("Book stock amount cannot be lower than 0");
         }
 
         Order newOrder = new Order(customer.getUsername(),
@@ -66,16 +68,16 @@ public class OrderServiceImpl {
 
     public Order getOrderById(String orderId) throws OrderNotFoundException {
 
-        Order order = orderRepository.findById(orderId).orElseThrow(() ->
-                new OrderNotFoundException("Incorrect order id"));
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("Incorrect order id"));
 
         return order;
     }
 
     public List<Order> getOrdersByDateInterval(LocalDateTime startDate, LocalDateTime endDate) throws OrderNotFoundException {
 
-        List<Order> orders = orderRepository.findOrdersByOrderCreationDateBetween(startDate, endDate).orElseThrow(() ->
-                new OrderNotFoundException("There is no order between given dates"));
+        List<Order> orders = orderRepository.findOrdersByOrderCreationDateBetween(startDate, endDate)
+                .orElseThrow(() -> new OrderNotFoundException("There is no given order between this interval"));
 
         return orders;
     }
@@ -83,7 +85,7 @@ public class OrderServiceImpl {
     public List<Order> getOrdersByUsername(String username) throws OrderNotFoundException{
 
         List<Order> orders = orderRepository.findOrdersByUsername(username).orElseThrow(() ->
-                new OrderNotFoundException("There is no order between given dates"));
+                new OrderNotFoundException("User" + username + "has no orders"));
 
         return orders;
     }

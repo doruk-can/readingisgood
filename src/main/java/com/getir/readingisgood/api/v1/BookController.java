@@ -19,23 +19,17 @@ public class BookController {
 
     @GetMapping("/find")
     public ResponseEntity<Book> getBookById(@RequestParam String bookId){
-        Book book = null;
-        try {
-            book = bookService.getBookById(bookId);
-        } catch (BookNotExistException e) {
-            e.printStackTrace();
-        }
+
+        Book book = bookService.getBookById(bookId);
+
         return ResponseEntity.ok(book);
     }
 
     @PostMapping("/add")
     public ResponseEntity<Book> addNewBook(@RequestBody BookDto bookDto) {
-        Book newBook = null;
-        try {
-            newBook = bookService.addNewBook(bookDto);
-        } catch (Exception e) {
-            e.printStackTrace();            // to do: add return statement
-        }
+
+        Book newBook = bookService.addNewBook(bookDto);
+
         return ResponseEntity.ok(newBook);
     }
 }

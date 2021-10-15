@@ -19,7 +19,7 @@ public class StatisticsController {
     @Autowired
     private StatisticsServiceImpl statisticsService;
 
-    @PostMapping("/monthly")
+    @GetMapping("/monthly")
     public List<CustomerMonthlyStatsResponse> getMonthlyCustomerStats(@RequestParam String username) {
 
         Map<String, List<Order>> myMap = statisticsService.getCustomerOrderSummaryPerMonth(username);
