@@ -23,35 +23,25 @@ public class OrderController {
 
     @GetMapping("/find")
     public ResponseEntity<Order> getOrderById(@RequestParam String orderId) {
-        Order order = null;
-        try {
-            order = orderService.getOrderById(orderId);
-        } catch (OrderNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        Order order = orderService.getOrderById(orderId);
         return ResponseEntity.ok(order);
     }
 
     @GetMapping("/listByInterval")
     public ResponseEntity<List<Order>> getOrdersByDateInterval(@RequestParam @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
                                                               @RequestParam @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
-        List<Order> orders = null;
-        try {
-            orders = orderService.getOrdersByDateInterval(startDate, endDate);
-        } catch (OrderNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        List<Order> orders = orderService.getOrdersByDateInterval(startDate, endDate);
+
         return ResponseEntity.ok(orders);
     }
 
     @PostMapping("/create")
     public ResponseEntity<Order> createNewOrder(@RequestBody OrderRequest orderRequest) {
-        Order newOrder = null;
-        try {
-            newOrder = orderService.createNewOrder(orderRequest);
-        } catch (BookNotExistException e) {
-            e.printStackTrace();
-        }
+
+        Order newOrder = orderService.createNewOrder(orderRequest);
+
         return ResponseEntity.ok(newOrder);
     }
 

@@ -23,12 +23,9 @@ public class CustomerController {
             @RequestParam(required = false) Integer pageNo,
             @RequestParam(required = false) Integer pageSize
     ){
-        List<Order> orders = null;
-        try {
-            orders = customerService.getOrdersByUsername(username, pageNo, pageSize);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+
+        List<Order> orders = customerService.getOrdersByUsername(username, pageNo, pageSize);
+
         return ResponseEntity.ok(orders);
     }
 

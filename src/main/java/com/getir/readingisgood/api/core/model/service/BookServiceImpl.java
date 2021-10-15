@@ -28,14 +28,14 @@ public class BookServiceImpl {
         return book;
     }
 
-    public Book addNewBook(BookDto bookDto) {
+    public Book addNewBook(BookDto bookDto) throws BookAlreadyExistException{
 
-        try {
+
+            if(bookRepository.existsBookByBookName(bookDto.getBookName())) {
+                throw new BookAlreadyExistException("The book was already added into the database");
+            }
+
             Book book = bookRepository.findBookByBookName(bookDto.getBookName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-      //          .orElseThrow(() -> new BookAlreadyExistException(bookDto.getBookName() + " was already added to the warehouse database"));
 
 
         Book newBook = new Book(bookDto.getBookName(),
@@ -45,7 +45,7 @@ public class BookServiceImpl {
 
         bookRepository.save(newBook);
 
-        log.debug(bookDto.getBookName() + " is added to the warehouse database");
+        log.info("New book addition: " + bookDto.toString());
 
         return newBook;
     }
@@ -64,7 +64,7 @@ public class BookServiceImpl {
         book.setStockAmount(updatedStock);
         bookRepository.save(book);
 
-        log.debug("Book stock is updated: " + book.toString());
+        log.info("Book stock is updated, updated inventory: " + book.toString());
 
         return book;
 
