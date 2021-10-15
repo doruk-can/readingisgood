@@ -39,6 +39,7 @@ public class Order {
         this.username = username;
         this.bookId = bookId;
         this.purchaseAmount = purchaseAmount;
+        this.orderStatus = EOrderStatus.WAITING;
         this.totalPrice = totalPrice;
         this.orderCreationDate = LocalDateTime.now();
     }

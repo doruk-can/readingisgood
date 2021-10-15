@@ -5,13 +5,13 @@ import com.getir.readingisgood.api.core.exception.BookNotExistException;
 import com.getir.readingisgood.api.core.exception.BooksOutOfStockException;
 import com.getir.readingisgood.api.core.model.domain.Book;
 import com.getir.readingisgood.api.core.model.repository.BookRepository;
-import com.getir.readingisgood.api.core.payload.BookDto;
+import com.getir.readingisgood.api.core.payload.request.BookAddRequest;
 import com.getir.readingisgood.api.core.payload.request.BookStockUpdateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -28,24 +28,24 @@ public class BookServiceImpl {
         return book;
     }
 
-    public Book addNewBook(BookDto bookDto) throws BookAlreadyExistException{
+    public Book addNewBook(BookAddRequest bookAddRequest) throws BookAlreadyExistException{
 
 
-            if(bookRepository.existsBookByBookName(bookDto.getBookName())) {
+            if(bookRepository.existsBookByBookName(bookAddRequest.getBookName())) {
                 throw new BookAlreadyExistException("The book was already added into the database");
             }
 
-            Book book = bookRepository.findBookByBookName(bookDto.getBookName());
+            Book book = bookRepository.findBookByBookName(bookAddRequest.getBookName());
 
 
-        Book newBook = new Book(bookDto.getBookName(),
-                bookDto.getAuthor(),
-                bookDto.getStockAmount(),
-                bookDto.getPrice());
+        Book newBook = new Book(bookAddRequest.getBookName(),
+                bookAddRequest.getAuthor(),
+                bookAddRequest.getStockAmount(),
+                bookAddRequest.getPrice());
 
         bookRepository.save(newBook);
 
-        log.info("New book addition: " + bookDto.toString());
+        log.info(LocalDateTime.now() + " New book addition: " + bookAddRequest.toString());
 
         return newBook;
     }
@@ -64,7 +64,7 @@ public class BookServiceImpl {
         book.setStockAmount(updatedStock);
         bookRepository.save(book);
 
-        log.info("Book stock is updated, updated inventory: " + book.toString());
+        log.info(LocalDateTime.now() + " Book stock is updated, updated inventory: " + book.toString());
 
         return book;
 

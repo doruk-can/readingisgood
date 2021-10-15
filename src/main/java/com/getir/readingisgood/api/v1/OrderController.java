@@ -2,6 +2,7 @@ package com.getir.readingisgood.api.v1;
 
 import com.getir.readingisgood.api.core.exception.BookNotExistException;
 import com.getir.readingisgood.api.core.exception.OrderNotFoundException;
+import com.getir.readingisgood.api.core.model.domain.EOrderStatus;
 import com.getir.readingisgood.api.core.model.domain.Order;
 import com.getir.readingisgood.api.core.model.service.OrderServiceImpl;
 import com.getir.readingisgood.api.core.payload.request.OrderRequest;
@@ -43,6 +44,16 @@ public class OrderController {
         Order newOrder = orderService.createNewOrder(orderRequest);
 
         return ResponseEntity.ok(newOrder);
+    }
+
+    @PostMapping("/changeStatus")
+    public ResponseEntity<Order> changeOrderStatus(@RequestParam String orderId, @RequestBody OrderRequest orderRequest,
+                                                   EOrderStatus orderStatus) {
+
+        Order order = orderService.changeOrderStatus(orderId, orderRequest, orderStatus);
+
+
+        return ResponseEntity.ok(order);
     }
 
 }
