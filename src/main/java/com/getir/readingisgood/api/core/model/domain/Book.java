@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -32,6 +33,9 @@ public class Book {
 
     @Positive
     private Double price;
+
+    @Version
+    private Long version;
 
     public Book(String bookName, String author, Integer stockAmount, Double price) {
         this.bookName = bookName;
