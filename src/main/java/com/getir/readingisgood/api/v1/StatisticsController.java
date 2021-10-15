@@ -1,5 +1,6 @@
 package com.getir.readingisgood.api.v1;
 
+import com.getir.readingisgood.api.core.model.domain.EOrderStatus;
 import com.getir.readingisgood.api.core.model.domain.Order;
 import com.getir.readingisgood.api.core.model.service.StatisticsServiceImpl;
 import com.getir.readingisgood.api.core.payload.response.CustomerMonthlyStatsResponse;
@@ -38,9 +39,11 @@ public class StatisticsController {
             totalPurchasedAmount = 0;
             totalOrderCount = 0;
             for(Order order : entry.getValue()) {
-                totalOrderCount += 1;
-                totalPurchasedAmount += order.getTotalPrice();
-                totalBookCount += order.getPurchaseAmount();
+                if(order.getOrderStatus().equals(EOrderStatus.APPROVED)) {
+                    totalOrderCount += 1;
+                    totalPurchasedAmount += order.getTotalPrice();
+                    totalBookCount += order.getPurchaseAmount();
+                }
             }
             temp.setTotalBookCount(totalBookCount);
             temp.setTotalPurchasedAmount(totalPurchasedAmount);
