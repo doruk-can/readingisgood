@@ -20,8 +20,8 @@ public class CustomerController {
     @GetMapping("/orders")
     public ResponseEntity<List<Order>> getOrdersByUsername(
             @RequestParam String username,
-            @RequestParam Integer pageNo,
-            @RequestParam Integer pageSize
+            @RequestParam(required = false) Integer pageNo,
+            @RequestParam(required = false) Integer pageSize
     ){
         List<Order> orders = null;
         try {

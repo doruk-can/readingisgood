@@ -80,6 +80,13 @@ public class OrderServiceImpl {
         return orders;
     }
 
+    public List<Order> getOrdersByUsername(String username) throws OrderNotFoundException{
+
+        List<Order> orders = orderRepository.findOrdersByUsername(username).orElseThrow(() ->
+                new OrderNotFoundException("There is no order between given dates"));
+
+        return orders;
+    }
 
 
 

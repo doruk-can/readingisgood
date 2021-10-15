@@ -15,4 +15,6 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
     Optional<List<Order>> findOrdersByOrderCreationDateBetween(LocalDateTime startDate, LocalDateTime endDate);
     Page<Order> findOrdersByUsername(String username, Pageable pageable);
+    Optional<List<Order>> findOrdersByUsername(String username);
+
 }
