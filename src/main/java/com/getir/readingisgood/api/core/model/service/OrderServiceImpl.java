@@ -6,6 +6,7 @@ import com.getir.readingisgood.api.core.model.domain.Book;
 import com.getir.readingisgood.api.core.model.domain.Order;
 import com.getir.readingisgood.api.core.model.domain.User;
 import com.getir.readingisgood.api.core.model.repository.OrderRepository;
+import com.getir.readingisgood.api.core.payload.request.BookStockUpdateRequest;
 import com.getir.readingisgood.api.core.payload.request.OrderRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,14 @@ public class OrderServiceImpl {
                 orderRequest.getPurchaseAmount(),
                 orderRequest.getPurchaseAmount() * book.getPrice());
 
-        // book stock update will be added
+        BookStockUpdateRequest bookStockUpdateRequest = new BookStockUpdateRequest(book.getBookName(),
+                book.getStockAmount() - orderRequest.getPurchaseAmount());
 
+        try {
+            bookService.updateBookStock(bookStockUpdateRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         orderRepository.save(newOrder);
 
         log.debug("New order creation: " + newOrder.toString());
