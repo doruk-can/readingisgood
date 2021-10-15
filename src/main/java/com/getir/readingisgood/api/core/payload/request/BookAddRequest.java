@@ -1,4 +1,4 @@
-package com.getir.readingisgood.api.core.payload;
+package com.getir.readingisgood.api.core.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookDto {
+public class BookAddRequest {
 
     private String bookName;
     private String author;

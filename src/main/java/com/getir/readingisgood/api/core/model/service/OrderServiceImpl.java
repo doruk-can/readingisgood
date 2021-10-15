@@ -5,6 +5,7 @@ import com.getir.readingisgood.api.core.exception.InsufficientBookStockException
 import com.getir.readingisgood.api.core.exception.InvalidOrderAmountException;
 import com.getir.readingisgood.api.core.exception.OrderNotFoundException;
 import com.getir.readingisgood.api.core.model.domain.Book;
+import com.getir.readingisgood.api.core.model.domain.EOrderStatus;
 import com.getir.readingisgood.api.core.model.domain.Order;
 import com.getir.readingisgood.api.core.model.domain.User;
 import com.getir.readingisgood.api.core.model.repository.OrderRepository;
@@ -46,10 +47,8 @@ public class OrderServiceImpl {
             throw new InsufficientBookStockException("Book stock amount cannot be lower than 0");
         }
 
-        Order newOrder = new Order(customer.getUsername(),
-                orderRequest.getBookId(),
-                orderRequest.getPurchaseAmount(),
-                orderRequest.getPurchaseAmount() * book.getPrice());
+        Order newOrder = new Order(customer.getUsername(), orderRequest.getBookId(),
+                orderRequest.getPurchaseAmount(), orderRequest.getPurchaseAmount() * book.getPrice());
 
         BookStockUpdateRequest bookStockUpdateRequest = new BookStockUpdateRequest(book.getBookName(),
                 book.getStockAmount() - orderRequest.getPurchaseAmount());
@@ -61,7 +60,7 @@ public class OrderServiceImpl {
         }
         orderRepository.save(newOrder);
 
-        log.debug("New order creation: " + newOrder.toString());
+        log.info(LocalDateTime.now() + " New order creation: " + newOrder.toString());
 
         return newOrder;
     }
@@ -88,6 +87,32 @@ public class OrderServiceImpl {
                 new OrderNotFoundException("User" + username + "has no orders"));
 
         return orders;
+    }
+
+    public Order changeOrderStatus(String orderId, OrderRequest orderRequest, EOrderStatus orderStatus) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("Incorrect order id"));
+
+        Book book = bookService.getBookById(orderRequest.getBookId());
+
+        if(orderStatus.equals(EOrderStatus.REJECTED)) {
+            BookStockUpdateRequest bookStockUpdateRequest = new BookStockUpdateRequest(book.getBookName(),
+                    book.getStockAmount() + orderRequest.getPurchaseAmount());
+
+            try {
+                bookService.updateBookStock(bookStockUpdateRequest);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        order.setOrderStatus(orderStatus);
+        orderRepository.save(order);
+
+        log.info(LocalDateTime.now() + " Order "+ order.getId() + " is " + orderStatus + " by the admin");
+
+        return order;
     }
 
 

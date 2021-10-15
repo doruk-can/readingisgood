@@ -1,10 +1,8 @@
 package com.getir.readingisgood.api.v1;
 
-import com.getir.readingisgood.api.core.exception.BookAlreadyExistException;
-import com.getir.readingisgood.api.core.exception.BookNotExistException;
 import com.getir.readingisgood.api.core.model.domain.Book;
 import com.getir.readingisgood.api.core.model.service.BookServiceImpl;
-import com.getir.readingisgood.api.core.payload.BookDto;
+import com.getir.readingisgood.api.core.payload.request.BookAddRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +24,9 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Book> addNewBook(@RequestBody BookDto bookDto) {
+    public ResponseEntity<Book> addNewBook(@RequestBody BookAddRequest bookAddRequest) {
 
-        Book newBook = bookService.addNewBook(bookDto);
+        Book newBook = bookService.addNewBook(bookAddRequest);
 
         return ResponseEntity.ok(newBook);
     }
