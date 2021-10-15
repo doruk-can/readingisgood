@@ -33,7 +33,7 @@ public class BookController {
         Book newBook = null;
         try {
             newBook = bookService.addNewBook(bookDto);
-        } catch (BookAlreadyExistException e) {
+        } catch (Exception e) {
             e.printStackTrace();            // to do: add return statement
         }
         return ResponseEntity.ok(newBook);
