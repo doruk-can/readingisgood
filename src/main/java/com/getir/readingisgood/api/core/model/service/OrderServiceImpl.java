@@ -80,17 +80,7 @@ public class OrderServiceImpl {
         return orders;
     }
 
-    public List<Order> getOrdersByUsername(String username, Integer pageNo, Integer pageSize) throws OrderNotFoundException {
 
-        Pageable pageable = PageRequest.of(pageNo != null ? pageNo : 0, pageSize != null ? pageSize : 10);
-        Page<Order> ordersByUsername = orderRepository.findOrdersByUsername(username, pageable);
-
-        if(ordersByUsername.isEmpty()){
-            throw new OrderNotFoundException("User " + username + " does not have any orders" );
-        }
-
-        return ordersByUsername.getContent();
-    }
 
 
 }
