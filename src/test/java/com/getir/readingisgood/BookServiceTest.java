@@ -23,7 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-/*
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BookServiceImpl.class})
 public class BookServiceTest {
@@ -57,7 +57,7 @@ public class BookServiceTest {
     }
 
 
-    /*
+   /*
     @Test
     public void addNewBook_success () {
 
@@ -92,7 +92,6 @@ public class BookServiceTest {
 
         BookStockUpdateRequest bookStockUpdateRequest = new BookStockUpdateRequest(book.getId(), 1);
 
-
         Book updatedBook = bookService.updateBookStock(bookStockUpdateRequest);
 
         assertEquals(updatedBook.getId(), book.getId());
@@ -100,19 +99,7 @@ public class BookServiceTest {
         verify(bookRepository).save(updatedBook);
     }
 
-    @Test
-    public void updateBookStock_invalidOrderAmount() {
-
-        Book book = new Book("1", "The Big Sleep", "Raymond Chandler", 20, 3.99, 1L);
-        when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
-
-        BookStockUpdateRequest bookStockUpdateRequest = new BookStockUpdateRequest(book.getId(), -1);
-
-        Assertions.assertThrows(InvalidOrderAmountException.class, () -> {
-            bookService.updateBookStock(bookStockUpdateRequest);
-        });
-
-    }
+    }*/
 
 
 
@@ -122,4 +109,4 @@ public class BookServiceTest {
 
 
 
-} */
+}
