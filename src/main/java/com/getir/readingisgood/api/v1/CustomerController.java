@@ -5,6 +5,7 @@ import com.getir.readingisgood.api.core.model.service.CustomerServiceImpl;
 import com.getir.readingisgood.api.core.model.service.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class CustomerController {
     private CustomerServiceImpl customerService;
 
     @GetMapping("/orders")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<Order>> getOrdersByUsername(
             @RequestParam String username,
             @RequestParam(required = false) Integer pageNo,

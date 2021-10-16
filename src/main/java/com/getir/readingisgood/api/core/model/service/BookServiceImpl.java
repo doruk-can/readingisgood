@@ -54,7 +54,7 @@ public class BookServiceImpl {
 
         Book book = bookRepository.findBookByBookName(bookStockUpdateRequest.getBookName());
 
-        int updatedStock = book.getStockAmount() + bookStockUpdateRequest.getStockAmount();
+        int updatedStock = bookStockUpdateRequest.getStockAmount();
 
         if(updatedStock < 0) {
             throw new BooksOutOfStockException("Update failure due to exceeding amount of stock");

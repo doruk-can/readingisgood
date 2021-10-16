@@ -5,6 +5,7 @@ import com.getir.readingisgood.api.core.model.service.BookServiceImpl;
 import com.getir.readingisgood.api.core.payload.request.BookAddRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +17,7 @@ public class BookController {
     private BookServiceImpl bookService;
 
     @GetMapping("/find")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Book> getBookById(@RequestParam String bookId){
 
         Book book = bookService.getBookById(bookId);
@@ -24,6 +26,7 @@ public class BookController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> addNewBook(@RequestBody BookAddRequest bookAddRequest) {
 
         Book newBook = bookService.addNewBook(bookAddRequest);
