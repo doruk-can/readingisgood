@@ -6,6 +6,7 @@ import com.getir.readingisgood.api.core.model.service.StatisticsServiceImpl;
 import com.getir.readingisgood.api.core.payload.response.CustomerMonthlyStatsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class StatisticsController {
     private StatisticsServiceImpl statisticsService;
 
     @GetMapping("/monthly")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<CustomerMonthlyStatsResponse> getMonthlyCustomerStats(@RequestParam String username) {
 
         Map<String, List<Order>> myMap = statisticsService.getCustomerOrderSummaryPerMonth(username);

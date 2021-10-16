@@ -9,6 +9,7 @@ import com.getir.readingisgood.api.core.payload.request.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class OrderController {
     private OrderServiceImpl orderService;
 
     @GetMapping("/find")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Order> getOrderById(@RequestParam String orderId) {
 
         Order order = orderService.getOrderById(orderId);
@@ -30,6 +32,7 @@ public class OrderController {
     }
 
     @GetMapping("/listByInterval")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Order>> getOrdersByDateInterval(@RequestParam @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
                                                               @RequestParam @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
 
@@ -39,6 +42,7 @@ public class OrderController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Order> createNewOrder(@RequestBody OrderRequest orderRequest) {
 
         Order newOrder = orderService.createNewOrder(orderRequest);
@@ -47,6 +51,7 @@ public class OrderController {
     }
 
     @PostMapping("/changeStatus")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Order> changeOrderStatus(@RequestParam String orderId, @RequestBody OrderRequest orderRequest,
                                                    EOrderStatus orderStatus) {
 
