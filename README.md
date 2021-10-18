@@ -18,7 +18,38 @@ ReadingIsGood is an online books retail firm which operates only on the Internet
  
 # Details
 
-To use api's you should use registered users. Some apis cannot be used by ordinary users (such as addNewBook, getOrdersByDateInterval, changeOrderStatus), admins can use all apis. It is possible to register a new user via signup api. However, you can use pre registered users.  Admin username: "admin", password: "password123". Ordinary user: "ali", password: "123456'
+To use api's you should use registered users. Some apis cannot be used by ordinary users (such as addNewBook, getOrdersByDateInterval, changeOrderStatus), admins can use all apis. It is possible to register a new user via signup api.
+
+
+# How to start
+
+In terminal change direction to readingisgood folder -> cd ../readingisgood
+Execute this command -> docker build -t springboot-mongodb:1.0 .
+Execute this command -> cd src
+Execute this command -> docker-compose up    or in detach mode if you don't want to see logs -> docker-compose up -d
+
+Now our application is working. To use apis you should sign up. We have to add roles collection before using apis on postman. It's a necessary collection to allow new sign up request.
+
+In terminal execute this command -> docker exec -it mymongodb bash
+Then -> mongo
+Then -> use readingisgood_db
+Then -> db.roles.insert(
+   [
+     { name: "ROLE_ADMIN" },
+     { name: "ROLE_USER" }
+   ]
+)
+
+
+Now you can use the application. When you sign up request body's role attribute can be ["admin"] or ["user"] .
+
+
+
+
+
+
+
+
 
 
 
