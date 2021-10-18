@@ -23,17 +23,17 @@ To use api's you should use registered users. Some apis cannot be used by ordina
 
 # How to start
 
-In terminal change direction to readingisgood folder -> cd ../readingisgood
-Execute this command -> docker build -t springboot-mongodb:1.0 .
-Execute this command -> cd src
-Execute this command -> docker-compose up    or in detach mode if you don't want to see logs -> docker-compose up -d
+* In terminal change direction to readingisgood folder -> cd ../readingisgood
+* Execute this command -> docker build -t springboot-mongodb:1.0 .
+* Then -> cd src
+* Then -> docker-compose up    or in detach mode if you don't want to see logs -> docker-compose up -d
 
 Now our application is working. To use apis you should sign up. We have to add roles collection before using apis on postman. It's a necessary collection to allow new sign up request.
 
-In terminal execute this command -> docker exec -it mymongodb bash
-Then -> mongo
-Then -> use readingisgood_db
-Then -> db.roles.insert(
+* In terminal execute this command -> docker exec -it mymongodb bash
+* Then -> mongo
+* Then -> use readingisgood_db
+* Then -> db.roles.insert(
    [
      { name: "ROLE_ADMIN" },
      { name: "ROLE_USER" }
